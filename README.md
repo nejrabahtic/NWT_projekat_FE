@@ -1,1 +1,5 @@
-# NWT_projekat_FE
+# Business Hookup FE
+
+Tim 3:
+  - Muhamed Delalić
+  - Nejra Bahtić
