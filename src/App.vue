@@ -1,30 +1,27 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Business Hookup</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn flat>
-        <span class="mr-2">Button 1</span>
-      </v-btn>
-    </v-toolbar>
-
+  <v-app app dark class="primary">
     <v-content>
+      <Header/>
       <DefaultPage/>
-    </v-content>
+      <!-- <LoginPage /> -->
+      <!-- <Footer/> -->
+  </v-content>
   </v-app>
 </template>
 
-
-
 <script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import DefaultPage from "./components/DefaultPage";
+import LoginPage from "./components/LoginPage";
 
 export default {
   name: "App",
   components: {
-    DefaultPage
+    Header,
+    Footer,
+    DefaultPage,
+    LoginPage
   },
   data() {
     return {

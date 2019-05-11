@@ -1,19 +1,27 @@
 <template>
-  <v-footer height="auto" color="primary lighten-1">
-    <v-layout justify-center row wrap>
-      <v-btn v-for="link in links" :key="link" color="white" flat round>{{ link }}</v-btn>
-      <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
-        &copy;2019 —
-        <strong>Tim3</strong>
-      </v-flex>
+  <v-container app dark color="primary" fill-height>
+    <v-layout justify-center align-center column pa-5>
+      <div class="display-1 font-weight-black black--text text-xs-center">MAIN PANEL</div>
     </v-layout>
-  </v-footer>
+  </v-container>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    links: ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"]
-  })
+  name: "DefaultPage",
+  data() {
+    return {
+      //
+    };
+  }
 };
 </script>
+
+<style scoped>
+.home-hero {
+    /* background: url('../../public/theme.png'); */
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+</style>
