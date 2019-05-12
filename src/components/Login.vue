@@ -25,8 +25,8 @@
                 ></v-text-field>
               </v-form>
             </v-card-text>
-            <v-card-actions>
-              <v-btn color="secondary">Login</v-btn>
+            <v-card-actions class="justify-center">
+              <v-btn color="primary">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
