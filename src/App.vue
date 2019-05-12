@@ -2,26 +2,18 @@
   <v-app app dark class="primary">
     <v-content>
       <Header/>
-      <DefaultPage/>
-      <!-- <LoginPage /> -->
-      <!-- <Footer/> -->
+      <router-view></router-view>
   </v-content>
   </v-app>
 </template>
 
 <script>
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import DefaultPage from "./components/DefaultPage";
-import LoginPage from "./components/LoginPage";
+import Header from '@/components/Header'
 
 export default {
   name: "App",
   components: {
-    Header,
-    Footer,
-    DefaultPage,
-    LoginPage
+    Header
   },
   data() {
     return {

@@ -11,10 +11,11 @@
               <v-form>
                 <v-text-field 
                   prepend-icon="person" 
-                  name="login" 
-                  label="Login" 
+                  name="username" 
+                  label="Username"
+                  id="username" 
                   type="text"
-                    ></v-text-field>
+                ></v-text-field>
                 <v-text-field
                   prepend-icon="lock"
                   name="password"
@@ -39,7 +40,8 @@ export default {
   name: "LoginPage",
   data() {
     return {
-      //
+      username: "",
+      password: ""
     };
   }
 };
