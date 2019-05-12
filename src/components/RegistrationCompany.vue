@@ -35,7 +35,7 @@
                   name="companyPhone"
                   label="Phone Number"
                   id="companyPhone"
-                  mask="phone"
+                  mask="+387 6# ###-###"
                 ></v-text-field>
               </v-form>
             </v-card-text>
@@ -57,7 +57,7 @@ export default {
         companyName: "",
         companyInfo: "",
         companyEmail: "",
-        companyPhone: ""
+        companyPhone: "",
     };
   }
 };
