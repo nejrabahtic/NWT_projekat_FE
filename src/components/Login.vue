@@ -15,6 +15,8 @@
                   label="Username"
                   id="username" 
                   type="text"
+                  v-model="username"
+                  :error="usernameerror"
                 ></v-text-field>
                 <v-text-field
                   prepend-icon="lock"
@@ -22,11 +24,15 @@
                   label="Password"
                   id="password"
                   type="password"
+                  v-model="password"
+                  :error="passworderror"
+                  :error-messages="error"
                 ></v-text-field>
               </v-form>
             </v-card-text>
+           
             <v-card-actions class="justify-center">
-              <v-btn color="primary">Login</v-btn>
+              <v-btn  v-on:click="login" color="primary"> Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -36,14 +42,43 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
+
 export default {
   name: "LoginPage",
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      usernameerror: false,
+      passworderror: false,
+      error: ""
     };
-  }
+  },
+  methods: {
+    login(){
+      axios
+      .post("http://localhost:8081/auth/login", {
+        username: this.username,
+        password: this.password,
+        role: "user"
+      })
+      .then( (response) => {
+        // eslint-disable-next-line
+        console.log(response.data);
+        localStorage.token = response.data
+      })
+      .catch( (error) => {
+        this.error = "Username or password are wrong. Please try again with  correct login information or register first"
+        this.usernameerror = true;
+        this.passworderror = true;
+        // eslint-disable-next-line
+        console.log(error);
+      })
+    }
+  },
 };
 </script>
 
