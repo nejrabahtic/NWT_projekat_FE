@@ -7,6 +7,8 @@ import About from '@/components/About'
 import NotFound from '@/components/NotFound'
 import RegistrationUser from '@/components/RegistrationUser'
 import RegistrationCompany from '@/components/RegistrationCompany'
+import UsersList from '@/components/UsersList'
+import User from '@/components/User'
 
 Vue.use(VueRouter)
 
@@ -47,6 +49,16 @@ export default new VueRouter({
             path: '/register-company',
             name: 'RegistrationCompany',
             component: RegistrationCompany
+        },
+        {
+            path: '/users',
+            name: 'UsersList',
+            component: UsersList
+        },
+        {
+            path: '/user',
+            name: 'User',
+            component: User
         }
     ]
 })

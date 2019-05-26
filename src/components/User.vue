@@ -3,33 +3,20 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
-          <v-card class="elevation-12">
+          <v-card class="elevation-8">
             <v-toolbar dark color="primary">
-              <v-toolbar-title>User Registration</v-toolbar-title>
+              <v-toolbar-title>Edit</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
               <v-form>
                 <v-text-field
                   prepend-icon="person"
-                  name="userName"
-                  label="Name"
-                  id="userName"
-                  type="text"
+                  name="username"
+                  label="Username"
+                  readonly
                 ></v-text-field>
-                <v-text-field
-                  prepend-icon="info"
-                  name="userInfo"
-                  label="Info"
-                  id="userInfo"
-                  type="text"
-                ></v-text-field>
-                <v-text-field
-                  prepend-icon="email"
-                  name="userEmail"
-                  label="Email"
-                  id="userEmail"
-                  type="text"
-                ></v-text-field>
+                <v-text-field prepend-icon="email" name="email" label="Email"></v-text-field>
+                <v-text-field prepend-icon="info" name="info" label="Info"></v-text-field>
                 <v-text-field
                   prepend-icon="phone"
                   name="userPhone"
@@ -40,7 +27,7 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="justify-center">
-              <v-btn color="primary">Register</v-btn>
+              <v-btn color="primary">Save changes</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -51,13 +38,10 @@
 
 <script>
 export default {
-  name: "RegistrationUser",
+  name: "User",
   data() {
     return {
-        userName: "",
-        userInfo: "",
-        userEmail: "",
-        userPhone: ""
+      //
     };
   }
 };
