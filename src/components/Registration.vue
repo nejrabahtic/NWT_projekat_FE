@@ -23,6 +23,14 @@
                   id="passwordRegistration"
                   type="password"
                 ></v-text-field>
+                <v-radio-group>
+                  <v-radio 
+                    label="User"
+                  ></v-radio>
+                  <v-radio
+                    label="Company"
+                  ></v-radio>
+                </v-radio-group>
               </v-form>
             </v-card-text>
             <v-card-actions class="justify-center">

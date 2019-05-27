@@ -32,7 +32,7 @@
             </v-card-text>
            
             <v-card-actions class="justify-center">
-              <v-btn  v-on:click="login" color="primary"> Login</v-btn>
+              <v-btn v-on:click="login" color="primary">Login</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
