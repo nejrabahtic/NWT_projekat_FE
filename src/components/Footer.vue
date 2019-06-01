@@ -1,7 +1,7 @@
 <template>
-  <v-footer app dark color="primary">
+  <v-footer app dark>
     <v-layout justify-center row wrap>
-        <strong class="white--text">NWT Tim 3</strong>
+        <strong>NWT Tim 3</strong>
     </v-layout>
   </v-footer>
 </template>

@@ -7,23 +7,22 @@ import About from '@/components/About'
 import NotFound from '@/components/NotFound'
 import RegistrationUser from '@/components/RegistrationUser'
 import RegistrationCompany from '@/components/RegistrationCompany'
-<<<<<<< HEAD
 import HomeCompany from '@/components/HomeCompany';
 
-=======
 import UsersList from '@/components/UsersList'
 import User from '@/components/User'
->>>>>>> 03184664f3453a275f7d0c5c3a349de28d500603
+import Auth from '../services/Auth.js';
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+
+var router =  new VueRouter({
     mode: 'history',
     routes: [
         {
             path: '/',
             name: 'Home',
-            component: Home
+            component: Home,
         },
         {
             path: '',
@@ -33,12 +32,26 @@ export default new VueRouter({
         {
             path: '/login',
             name: 'Login',
-            component: Login
+            component: Login,
+            beforeEnter: (_to, _from , next) => {
+                if(Auth.isLoggedIn()){
+                    next("/")
+                } else{
+                    next();
+                }
+            }
         },
         {
             path: '/registration',
             name: 'Registration',
-            component: Registration
+            component: Registration,
+            beforeEnter: (_to, _from , next) => {
+                if(Auth.isLoggedIn()){
+                    next("/")
+                } else{
+                    next();
+                }
+            }
         },
         {
             path: '/about',
@@ -72,3 +85,9 @@ export default new VueRouter({
         }
     ]
 })
+
+// router.beforeEach((to, from, next) => {
+
+// });
+
+export default router;

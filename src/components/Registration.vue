@@ -1,10 +1,9 @@
 <template>
-  <v-content>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
           <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar dark>
               <v-toolbar-title>Registration</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -23,24 +22,26 @@
                   id="passwordRegistration"
                   type="password"
                 ></v-text-field>
-                <v-radio-group>
+                <v-radio-group  row v-model="role">
                   <v-radio 
                     label="User"
-                  ></v-radio>
+                    value="user"
+                  />
                   <v-radio
                     label="Company"
-                  ></v-radio>
+                    value="company"
+                  />
                 </v-radio-group>
               </v-form>
             </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn color="primary">Register</v-btn>
+            <v-card-actions>
+             <v-spacer></v-spacer>
+              <v-btn>Register</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
 </template>
 
 <script>
@@ -49,7 +50,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      role: "user"
     };
   }
 };

@@ -1,9 +1,9 @@
 <template>
-  <v-app app dark>
+  <v-app dark app>
+    <Sidebar :drawer="drawer" :closeDrawer="closeDrawer"/>
     <Header :toggleDrawer="toggleDrawer" />
-    <v-content>
-      <Sidebar :drawer="drawer" />
-      <router-view></router-view>
+    <v-content light>
+      <router-view :openDrawer="openDrawer"></router-view>
   </v-content>
   </v-app>
 </template>
@@ -20,14 +20,18 @@ export default {
   },
   data() {
     return {
-      drawer: false,
-
-    };
+      drawer: false
+    }
   },
   methods:{
     toggleDrawer() {
       this.drawer = !this.drawer
-
+    },
+    closeDrawer(){
+      this.drawer = false;
+    },
+    openDrawer(){
+      this.drawer = true;
     }
   }
 };
