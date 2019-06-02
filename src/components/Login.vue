@@ -102,12 +102,12 @@ export default {
         this.snackbar = true;
         setTimeout(() => {
           this.openDrawer();
-          this.$router.push({path: "/"})
+          this.$router.push({ path: "/" })
         }, 800)
      
       })
       .catch( (error) => {
-        this.error = "Username or password are wrong. Please try again with  correct login information or register first"
+        this.error = "Username, password and/or role are wrong. Please try again with correct login information or register first"
         this.usernameerror = true;
         this.passworderror = true;
         // eslint-disable-next-line

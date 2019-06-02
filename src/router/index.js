@@ -5,8 +5,8 @@ import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import About from '@/components/About'
 import NotFound from '@/components/NotFound'
-import RegistrationUser from '@/components/RegistrationUser'
-import RegistrationCompany from '@/components/RegistrationCompany'
+// import RegistrationUser from '@/components/RegistrationUser'
+// import RegistrationCompany from '@/components/RegistrationCompany'
 import HomeCompany from '@/components/HomeCompany';
 
 import UsersList from '@/components/UsersList'
@@ -22,12 +22,10 @@ var router =  new VueRouter({
         {
             path: '/',
             name: 'Home',
-            component: Home,
-        },
-        {
-            path: '',
-            name: 'NotFound',
-            component: NotFound
+            component: Home,   
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/login',
@@ -59,16 +57,6 @@ var router =  new VueRouter({
             component: About
         },
         {
-            path: '/register-user',
-            name: 'RegistrationUser',
-            component: RegistrationUser
-        },
-        {
-            path: '/register-company',
-            name: 'RegistrationCompany',
-            component: RegistrationCompany
-        },
-        {
             path: '/company',
             name: 'HomeCompany',
             component: HomeCompany
@@ -82,12 +70,27 @@ var router =  new VueRouter({
             path: '/user',
             name: 'User',
             component: User
+        },
+        {
+            path: '/404',
+            name: 'NotFound',
+            component: NotFound
+        },
+        {
+            path: '*',
+            redirect: '/404'
         }
     ]
 })
 
-// router.beforeEach((to, from, next) => {
-
-// });
+router.beforeEach((to, _from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth) && !Auth.isLoggedIn()){
+        next({
+            path: 'login'
+        })
+    } else {
+        next();
+    }
+});
 
 export default router;
