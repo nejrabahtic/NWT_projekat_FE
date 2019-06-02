@@ -8,6 +8,7 @@ import NotFound from '@/components/NotFound'
 // import RegistrationUser from '@/components/RegistrationUser'
 // import RegistrationCompany from '@/components/RegistrationCompany'
 import HomeCompany from '@/components/HomeCompany';
+import Profile from '@/components/Profile';
 
 import UsersList from '@/components/UsersList'
 import User from '@/components/User'
@@ -19,14 +20,6 @@ Vue.use(VueRouter)
 var router =  new VueRouter({
     mode: 'history',
     routes: [
-        {
-            path: '/',
-            name: 'Home',
-            component: Home,   
-            meta: {
-                requiresAuth: true
-            }
-        },
         {
             path: '/login',
             name: 'Login',
@@ -49,6 +42,22 @@ var router =  new VueRouter({
                 } else{
                     next();
                 }
+            }
+        },
+        {
+            path: '/',
+            name: 'Home',
+            component: Home,   
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile,
+            meta: {
+                requiresAuth: true
             }
         },
         {

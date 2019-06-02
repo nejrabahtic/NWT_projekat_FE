@@ -53,7 +53,7 @@
       :bottom="true"
       :timeout="4000"
     > 
-      Succesfull login
+      Successfully loged in!
       <v-btn
         color="pink"
         flat
@@ -94,7 +94,7 @@ export default {
         password: this.password,
         role: this.role
       })
-      .then( (response) => {
+      .then(response => {
         // eslint-disable-next-line
         console.log(response.data);
         Auth.setToken(response.data);
@@ -106,7 +106,7 @@ export default {
         }, 800)
      
       })
-      .catch( (error) => {
+      .catch(error => {
         this.error = "Username, password and/or role are wrong. Please try again with correct login information or register first"
         this.usernameerror = true;
         this.passworderror = true;

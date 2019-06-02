@@ -10,17 +10,15 @@
               <v-form>
                 <v-text-field 
                   prepend-icon="person" 
-                  name="usernameRegistration" 
-                  label="Username"
-                  id="usernameRegistration" 
+                  label="Username" 
                   type="text"
+                  v-model="username"
                 ></v-text-field>
                 <v-text-field
                   prepend-icon="lock"
-                  name="passwordRegistration"
                   label="Password"
-                  id="passwordRegistration"
                   type="password"
+                  v-model="password"
                 ></v-text-field>
                 <v-radio-group  row v-model="role">
                   <v-radio 
@@ -36,24 +34,71 @@
             </v-card-text>
             <v-card-actions>
              <v-spacer></v-spacer>
-              <v-btn>Register</v-btn>
+              <v-btn @click="register">Register</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
+      <v-snackbar
+        v-model="snackbar"
+        :bottom="true"
+        :timeout="4000"
+      > 
+        Successfully registered!
+      <v-btn
+        color="pink"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     </v-container>
 </template>
 
 <script>
+import axios from 'axios';
+import Auth from '../services/Auth.js';
+
 export default {
-  name: "Registration",
+  name: "Registration",  
+  props: {
+    openDrawer: Function
+  },
   data() {
     return {
       username: "",
       password: "",
-      role: "user"
+      role: "user",
+      snackbar: false
     };
-  }
+  },
+  methods: {
+    register(){
+      axios
+        .post("http://localhost:8081/auth/register", {
+          username: this.username,
+          password: this.password,
+          role: this.role
+        })
+        .then(response => {
+          // eslint-disable-next-line
+          console.log(response.data);
+          Auth.setToken(response.data);
+          Auth.setUser(this.username, this.role);
+          this.snackbar = true;
+          setTimeout(() => {
+            this.openDrawer();
+            this.$router.push({ path: "/" })
+          }, 800)
+     
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.log(error);
+        })
+    }
+  },
 };
 </script>
 

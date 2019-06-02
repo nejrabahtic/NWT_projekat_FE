@@ -4,6 +4,7 @@
       v-model="drawer"
       fixed
       left
+      stateless
       app
     >
       <v-list class="pt-4" dense dark flat >
