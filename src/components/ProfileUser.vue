@@ -17,6 +17,7 @@
               v-model="user.name"
               type="text"
               :readonly="!edit"
+              :loading="loading"
             ></v-text-field>
             <v-text-field
               prepend-icon="email"
@@ -24,6 +25,7 @@
               v-model="user.email"
               type="text"
               :readonly="!edit"
+              :loading="loading"
             ></v-text-field>
             <v-text-field
               prepend-icon="phone"
@@ -31,12 +33,14 @@
               v-model="user.phone"
               mask="+### ## ###-###"
               :readonly="!edit"
+              :loading="loading"
             ></v-text-field>
             <v-textarea
               prepend-icon="info"
               v-model="user.info"
               label="About yourself:"
               :readonly="!edit"
+              :loading="loading"
             ></v-textarea>
           </v-form>
           <v-layout v-if="!edit" xs12 justify-end>
@@ -72,17 +76,16 @@
 <script>
 import Auth from '../services/Auth.js';
 import User from '../services/User.js';
-import axios from 'axios';
 
 export default {
   name: "ProfileUser",
   data(){
     return {
       user: {
-        name: "Muhamed Delalic",
-        info: "Lead software Developer",
-        email: "muha.dellaic@gmail.com",
-        phone: "+387 62 223-500",
+        name: "",
+        info: "",
+        email: "",
+        phone: ""
       },
       savedUser: {
         name: "",
@@ -91,7 +94,8 @@ export default {
         phone: ""
       },
       username: Auth.getName(),
-      edit: false
+      edit: false,
+      loading: true
     };
   },
   mounted(){
@@ -106,9 +110,11 @@ export default {
           email: userEmail? userEmail: "Not set",
           phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000"
         }
-        
+        this.loading = false;
       })
       .catch(error => {
+        this.loading = false;
+        // eslint-disable-next-line
         console.log(error);
       })
   },
@@ -123,12 +129,30 @@ export default {
       this.user = Object.assign({}, this.savedUser);
     },
     saveUserData(){
+      this.loading = true;
       User
-        .postUserData(this.user)
+        .postUserData({
+            userName: this.user.name,
+            userEmail: this.user.email,
+            userInfo: this.user.info,
+            userPhoneNumber: this.user.phone
+        })
         .then(response => {
-            console.log(response);
+          // eslint-disable-next-line
+          console.log(response);
+            const { userEmail, userInfo, userName, userPhoneNumber } = response.data;
+            this.user = {
+              name: userName? userName: "Not set",
+              info: userInfo? userInfo: "Not set",
+              email: userEmail? userEmail: "Not set",
+              phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000"
+            }
+            this.loading = false;
+            this.edit = false;
         })
         .catch(error => {
+          this.loading = true;
+          // eslint-disable-next-line
           console.log(error);
         })
     }

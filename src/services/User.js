@@ -16,9 +16,10 @@ export default {
             method: 'post',
             url: 'http://localhost:3000/user/change',
             headers: { 
-                "Authorization": Auth.getToken() 
+                "Authorization": Auth.getToken(),
+                "Content-Type": "application/json"
             },
-            body: user
+            data: user
         })
     )
 };
