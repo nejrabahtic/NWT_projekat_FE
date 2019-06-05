@@ -24,7 +24,7 @@
   </template>
 
 <script>
-import Auth from '../services/Auth.js';
+import AuthService from '../services/AuthService.js';
 
 export default {
   name: "Header",
@@ -34,13 +34,13 @@ export default {
   data() {
     return {
       drawer: true,
-      loggedIn: Auth.isLoggedIn()
+      loggedIn: AuthService.isLoggedIn()
     }
   },
   created() {
     
-    Auth.subscribe("header_check", () => {
-      this.loggedIn = Auth.isLoggedIn()
+    AuthService.subscribe("header_check", () => {
+      this.loggedIn = AuthService.isLoggedIn()
     })
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
       this.$router.push('/about')
     },
     changeDrawer(){
-      if(Auth.isLoggedIn())
+      if(AuthService.isLoggedIn())
         this.toggleDrawer();
     }
   }

@@ -6,7 +6,8 @@ var subscribed = {};
 var Storage = window.localStorage;
 
 var callSubscribed = () => {
-    Object.values(subscribed)
+    Object
+        .values(subscribed)
         .forEach( fun => fun());
 }
 

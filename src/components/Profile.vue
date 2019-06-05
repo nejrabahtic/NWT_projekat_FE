@@ -5,7 +5,7 @@
 <script>
 // import ProfileUser from './ProfileUser';
 // import ProfileCompany from './ProfileCompany';
-import Auth from '../services/Auth.js';
+import AuthService from '../services/AuthService.js';
 import ProfileUser from "./ProfileUser";
 import ProfileCompany from "./ProfileCompany";
 import NotFound from "./NotFound";
@@ -14,12 +14,12 @@ export default {
     name: "Profile",
     data() {
         return {
-            role: Auth.getRole()
+            role: AuthService.getRole()
         }
     },
     created() {
-        Auth.subscribe("role_change", () => {
-            this.role = Auth.getRole();
+        AuthService.subscribe("role_change", () => {
+            this.role = AuthService.getRole();
         })
     },
     computed: {

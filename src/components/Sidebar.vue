@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import Auth from "../services/Auth.js";
+import AuthService from "../services/AuthService.js";
 import router from '../router';
 
   export default {
@@ -152,7 +152,7 @@ import router from '../router';
     },
     methods: {
       signout(){
-        Auth.clear()
+        AuthService.clear()
         this.closeDrawer();
         router.push({path: "login"});
       }

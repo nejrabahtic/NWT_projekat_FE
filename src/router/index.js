@@ -12,7 +12,7 @@ import Profile from '@/components/Profile';
 
 import UsersList from '@/components/UsersList'
 import User from '@/components/User'
-import Auth from '../services/Auth.js';
+import AuthService from '../services/AuthService.js';
 
 Vue.use(VueRouter)
 
@@ -25,7 +25,7 @@ var router =  new VueRouter({
             name: 'Login',
             component: Login,
             beforeEnter: (_to, _from , next) => {
-                if(Auth.isLoggedIn()){
+                if(AuthService.isLoggedIn()){
                     next("/")
                 } else{
                     next();
@@ -37,7 +37,7 @@ var router =  new VueRouter({
             name: 'Registration',
             component: Registration,
             beforeEnter: (_to, _from , next) => {
-                if(Auth.isLoggedIn()){
+                if(AuthService.isLoggedIn()){
                     next("/")
                 } else{
                     next();
@@ -93,7 +93,7 @@ var router =  new VueRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth) && !Auth.isLoggedIn()){
+    if(to.matched.some(record => record.meta.requiresAuth) && !AuthService.isLoggedIn()){
         next({
             path: 'login'
         })

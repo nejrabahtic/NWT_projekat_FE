@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import Auth from '../services/Auth.js';
+import AuthService from '../services/AuthService.js';
 
 export default {
   name: "Home",
   data() {
     return {
-      name: Auth.getName(),
-      role: Auth.getRole()
+      name: AuthService.getName(),
+      role: AuthService.getRole()
     }
   }
 };

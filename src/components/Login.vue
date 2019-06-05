@@ -68,7 +68,7 @@
 <script>
 
 import axios from 'axios';
-import Auth from '../services/Auth.js';
+import AuthService from '../services/AuthService.js';
 
 export default {
   name: "LoginPage",
@@ -97,8 +97,8 @@ export default {
       .then(response => {
         // eslint-disable-next-line
         console.log(response.data);
-        Auth.setToken(response.data);
-        Auth.setUser(this.username, this.role);
+        AuthService.setToken(response.data);
+        AuthService.setUser(this.username, this.role);
         this.snackbar = true;
         setTimeout(() => {
           this.openDrawer();
