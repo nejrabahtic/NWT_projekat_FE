@@ -5,14 +5,14 @@ import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import About from '@/components/About'
 import NotFound from '@/components/NotFound'
-// import RegistrationUser from '@/components/RegistrationUser'
-// import RegistrationCompany from '@/components/RegistrationCompany'
 import HomeCompany from '@/components/HomeCompany';
 import Profile from '@/components/Profile';
+import JobCreation from '@/components/JobCreation';
 
 import UsersList from '@/components/UsersList'
 import User from '@/components/User'
 import AuthService from '../services/AuthService.js';
+
 
 Vue.use(VueRouter)
 
@@ -69,6 +69,14 @@ var router =  new VueRouter({
             path: '/company',
             name: 'HomeCompany',
             component: HomeCompany
+        },
+        {
+            path: '/job/creation',
+            name: 'JobCreation',
+            component: JobCreation,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/users',

@@ -172,12 +172,11 @@ export default {
       .getUserByToken()
       .then(response => {
         const { userEmail, userInfo, userName, userPhoneNumber, skills } = JSON.parse(response.data);
-        console.log(skills);
         this.user = {
           name: userName? userName: "Not set",
           info: userInfo? userInfo: "Not set",
           email: userEmail? userEmail: "Not set",
-          phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000",
+          phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000"
         }
         this.userSkills = skills.map(item => {
           return {
@@ -188,10 +187,10 @@ export default {
         })
         this.loading = false;
       })
-      .catch(error => {
-        this.loading = false;
+      .catch(error => {       
         // eslint-disable-next-line
         console.log(error);
+        this.loading = false;
       })
     SkillService
       .getSkills()
@@ -225,7 +224,6 @@ export default {
             userPhoneNumber: this.user.phone
         })
         .then(response => {
-          // eslint-disable-next-line
             const { userEmail, userInfo, userName, userPhoneNumber } = response.data;
             this.user = {
               name: userName? userName: "Not set",
@@ -255,6 +253,7 @@ export default {
           })
         })
         .catch(error => {
+          // eslint-disable-next-line
           console.log(error);
         })
     },
@@ -272,6 +271,7 @@ export default {
           this.skillsToAdd = [];
         })
         .catch(error => {
+          // eslint-disable-next-line
           console.log(error);
         });
     }
