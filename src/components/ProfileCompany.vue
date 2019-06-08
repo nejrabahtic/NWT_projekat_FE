@@ -57,7 +57,7 @@
                                 @click="cancleEditMode"
                                 color="error"
                                 >
-                                Cancle
+                                Cancel
                                 <v-icon right>clear</v-icon>
                             </v-btn>
                             <v-btn 
@@ -70,12 +70,26 @@
                         </v-layout>
                     </v-flex>
                 </v-layout>
-                <v-layout xs12 pt-4 justify-center>
-                    <v-btn
+                <v-layout xs12 pt-4 justify-center column>
+                    <v-flex justify-center>
+                        <v-data-table :headers="headers" :items="company.jobs" class="elevation-1">
+                            <template v-slot:items="props" class="text-xs-center">
+                                <td class="text-xs-left">{{ props.item.jobinfo }}</td>
+                                <td class="text-xs-left">{{ props.item.jobname }}</td>
+                                <td class="text-xs-left">{{ props.item.location }}</td>
+                                <td class="text-xs-left">{{ props.item.requirements }}</td>
+                                <td class="text-xs-left">{{ props.item.partTime }}</td>
+                                <td class="text-xs-left">{{ props.item.remote }}</td>
+                            </template>
+                        </v-data-table>
+                    </v-flex>
+                    <v-flex justify-center>
+                        <v-btn
                         @click="navigateToJobCreation"
-                    >
-                        Add new job    
-                    </v-btn>
+                        >
+                            Add new job    
+                        </v-btn>
+                    </v-flex>
                 </v-layout>
             </v-layout>
         </v-layout>
@@ -105,7 +119,15 @@ export default {
                 email: "",
                 phone: "",
                 info: ""
-            }
+            },
+            headers: [
+                { text: "Jobinfo", value: "jobinfo" },
+                { text: "Jobname", value: "jobname" },
+                { text: "Location", value: "location" },
+                { text: "PartTime", value: "partTime" },
+                { text: "Remote", value: "remote" },
+                { text: "Requirements", value: "requirements" },
+            ]
         }
     },
     mounted(){
@@ -114,12 +136,13 @@ export default {
             .then(response => {
                 // eslint-disable-next-line
                 console.log(JSON.parse(response.data));
-                const { companyemail, companyinfo, companyname, companyphonenumber} = JSON.parse(response.data);
+                const { companyemail, companyinfo, companyname, companyphonenumber, jobs} = JSON.parse(response.data);
                 this.company = {
                     name: companyname? companyname: "Not set",
                     info: companyinfo? companyinfo: "Not set",
                     email: companyemail? companyemail: "Not set",
-                    phone: companyphonenumber? companyphonenumber: "+000 00 000-000"
+                    phone: companyphonenumber? companyphonenumber: "+000 00 000-000",
+                    jobs: jobs? jobs: "Not set"
                 }
                 this.loading = false;
             })
@@ -171,3 +194,6 @@ export default {
 }
 
 </script>
+
+<style scoped>
+</style>
