@@ -71,7 +71,15 @@
                     </v-flex>
                 </v-layout>
                 <v-layout xs12 pt-4 justify-center column>
-                    <v-flex justify-center>
+                   <v-flex pb-2 justify-center>
+                        <v-btn 
+                            color="success"
+                            @click="navigateToJobCreation"
+                            >
+                            Add new job    
+                        </v-btn>
+                    </v-flex>
+                    <v-flex justify-center pa-1>
                         <v-data-table :headers="headers" :items="company.jobs" class="elevation-1">
                             <template v-slot:items="props" class="text-xs-center">
                                 <td class="text-xs-left">{{ props.item.jobinfo }}</td>
@@ -83,13 +91,7 @@
                             </template>
                         </v-data-table>
                     </v-flex>
-                    <v-flex justify-center>
-                        <v-btn
-                        @click="navigateToJobCreation"
-                        >
-                            Add new job    
-                        </v-btn>
-                    </v-flex>
+                 
                 </v-layout>
             </v-layout>
         </v-layout>
