@@ -154,7 +154,7 @@ import router from '../router';
       signout(){
         AuthService.clear()
         this.closeDrawer();
-        router.push({path: "login"});
+        router.push({path: "/login"});
       }
 
     },

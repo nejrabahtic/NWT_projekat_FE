@@ -26,8 +26,8 @@
                 v-model="password"
                 :error="passworderror"
                 :error-messages="error"
-              ></v-text-field>
-              <v-radio-group  row v-model="role">
+              ></v-text-field>  
+              <v-radio-group pt-1 column v-model="role" row >
                 <v-radio 
                   label="User"
                   value="user"
@@ -35,9 +35,8 @@
                 <v-radio
                   label="Company"
                   value="company"
-                />
+                ></v-radio>
               </v-radio-group>
-
             </v-form>
           </v-card-text>
           

@@ -135,6 +135,7 @@ import AuthService from '../services/AuthService.js';
 import UserService from '../services/UserService.js';
 import SkillService from '../services/SkillService.js';
 
+
 export default {
   name: "ProfileUser",
   data(){
@@ -193,7 +194,7 @@ export default {
         this.loading = false;
       })
     SkillService
-      .getSkills()
+      .getUserSkills()
       .then(response => {
         this.skills = response.data.map(item => {
           return {
@@ -244,6 +245,7 @@ export default {
       UserService
         .addSkillsToUser(this.skillsToAdd)
         .then(response => {
+          this.skillsToAdd = [];
           this.userSkills = response.data.skills.map(item => {
             return {
               id: item.id,
