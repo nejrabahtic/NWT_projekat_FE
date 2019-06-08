@@ -21,5 +21,16 @@ export default {
             },
             data: company
         })
+    ),
+    addJob: (job) => (
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/company/addJob',
+            headers: { 
+                "Authorization": AuthService.getToken(),
+                "Content-Type": "application/json"
+            },
+            data: job
+        })
     )
 };

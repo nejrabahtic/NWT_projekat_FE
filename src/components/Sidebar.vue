@@ -138,7 +138,7 @@ import router from '../router';
           active: true,
           routes: [
             {
-              route: "/jobs/create",
+              route: "/job/creation",
               name: "Create"
             },
             {
