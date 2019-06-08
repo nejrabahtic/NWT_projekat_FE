@@ -57,7 +57,7 @@
                 @click="cancleEditMode"
                 color="error"
                 >
-                Cancle
+                Cancel
                 <v-icon right>clear</v-icon>
               </v-btn>
               <v-btn 
