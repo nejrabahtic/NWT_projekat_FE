@@ -5,26 +5,51 @@
         <v-layout row>
           <v-flex xs6>
             <v-layout row justify-center>
-              <v-btn>Match</v-btn>
+              <v-btn @click="match">Find New Job</v-btn>
             </v-layout>
             <v-flex class="form" justify-center align-center>
               <v-form>
-                <v-text-field prepend-icon="business" name="jobname" label="Job name" readonly></v-text-field>
-                <v-text-field prepend-icon="info" name="jobinfo" label="Job info" readonly></v-text-field>
-                <v-text-field prepend-icon="location_on" name="location" label="Location" readonly></v-text-field>
-                <v-text-field prepend-icon="style" name="requirements" label="Requirements"></v-text-field>
+                <v-text-field
+                  prepend-icon="business"
+                  v-model="job.jobname"
+                  name="jobname"
+                  label="Job name"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="info"
+                  v-model="job.jobinfo"
+                  name="jobinfo"
+                  label="Job info"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="location_on"
+                  v-model="job.location"
+                  name="location"
+                  label="Location"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="style"
+                  v-model="job.requirements"
+                  name="requirements"
+                  label="Requirements"
+                ></v-text-field>
                 <!-- <v-text-field
-                  v-if="remote ? remote : !remote"
+                  v-if="job.remote ? job.remote : !job.remote"
                   prepend-icon="schedule"
+                  v-model="job.remote"
                   name="remote"
                   label="Availability"
                 ></v-text-field>
                 <v-text-field
-                  v-if="partTime ? partTime : !partTime"
+                  v-if="job.partTime ? job.partTime : !job.partTime"
                   prepend-icon="watch_later"
+                  v-model="job.partTime"
                   name="partTime"
                   label="Work hours"
-                ></v-text-field> -->
+                ></v-text-field>-->
               </v-form>
             </v-flex>
             <v-layout row justify-center>
@@ -40,7 +65,7 @@
           </v-flex>
           <v-flex xs6>
             <v-layout row justify-center align-center>
-              <v-data-table :headers="headers" :items="history" class="elevation-1">
+              <v-data-table :headers="headers" :items="matchesByUser" class="elevation-1">
                 <template v-slot:items="props" class="text-xs-center">
                   <td class="text-xs-left">{{ props.item.jobname }}</td>
                   <td class="text-xs-left">{{ props.item.companyname }}</td>
@@ -56,13 +81,23 @@
 </template>
 
 <script>
+import MatchService from "../services/MatchService";
+
 export default {
   name: "Match",
   data() {
     return {
       edit: false,
       loading: true,
-      histories: [],
+      job: {
+        jobname: "Job name",
+        jobinfo: "Job info",
+        location: "Job location",
+        requirements: "Job requirements",
+        remote: false,
+        partTime: true
+      },
+      matchesByUser: [],
       headers: [
         { text: "Job name", value: "jobname" },
         { text: "Company name", value: "companyname" },
@@ -71,7 +106,23 @@ export default {
     };
   },
   mounted() {
-    
+    MatchService.getMachesByUserId()
+      .then(response => {
+        // eslint-disable-next-line
+        console.log(response.data);
+        this.matchesByUser = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        this.loading = false;
+        // eslint-disable-next-line
+        console.log(error);
+      });
+  },
+  methods: {
+    match() {
+      //MatchService.match()
+    }
   }
 };
 </script>
