@@ -54,7 +54,7 @@
                 counter="500"
               ></v-textarea>
             <v-text-field 
-                prepend-icon="styles" 
+                prepend-icon="style" 
                 label="Requirments:" 
                 type="text"
                 v-model="requirements"
