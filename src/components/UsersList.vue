@@ -1,13 +1,17 @@
 <template>
-  <v-data-table :headers="headers" :items="users" class="elevation-1">
-    <template v-slot:items="props" class="text-xs-center">
-      <td class="text-xs-left">{{ props.item.id }}</td>
-      <td class="text-xs-left">{{ props.item.userName }}</td>
-      <td class="text-xs-left">{{ props.item.userEmail }}</td>
-      <td class="text-xs-left">{{ props.item.userInfo }}</td>
-      <td class="text-xs-left">{{ props.item.userPhoneNumber }}</td>
-    </template>
-  </v-data-table>
+  <v-container fill-height>
+    <v-layout row justify-center align-center>
+      <v-data-table :headers="headers" :items="users" class="elevation-1">
+        <template v-slot:items="props" class="text-xs-center">
+          <td class="text-xs-left">{{ props.item.id }}</td>
+          <td class="text-xs-left">{{ props.item.userName }}</td>
+          <td class="text-xs-left">{{ props.item.userEmail }}</td>
+          <td class="text-xs-left">{{ props.item.userInfo }}</td>
+          <td class="text-xs-left">{{ props.item.userPhoneNumber }}</td>
+        </template>
+      </v-data-table>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

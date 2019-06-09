@@ -1,16 +1,22 @@
 <template>
-  <v-data-table :headers="headers" :items="companies" class="elevation-1">
-    <template v-slot:items="props" class="text-xs-center">
-      <td class="text-xs-left">{{ props.item.companyname }}</td>
-      <td class="text-xs-left">{{ props.item.companyemail }}</td>
-      <td class="text-xs-left">{{ props.item.companyinfo }}</td>
-      <td class="text-xs-left">{{ props.item.companyphonenumber }}</td>
-    </template>
-  </v-data-table>
+  <v-container fill-height>
+    <v-layout row justify-center align-center>
+      <v-flex>
+        <v-data-table :headers="headers" :items="companies" class="elevation-1">
+          <template v-slot:items="props" class="text-xs-center">
+            <td class="text-xs-left">{{ props.item.companyname }}</td>
+            <td class="text-xs-left">{{ props.item.companyemail }}</td>
+            <td class="text-xs-left">{{ props.item.companyinfo }}</td>
+            <td class="text-xs-left">{{ props.item.companyphonenumber }}</td>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import CompanyService from '../services/CompanyService';
+import CompanyService from "../services/CompanyService";
 
 export default {
   name: "UsersList",

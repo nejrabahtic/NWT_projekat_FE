@@ -80,12 +80,12 @@ var router =  new VueRouter({
             }
         },
         {
-            path: '/users',
+            path: '/users/overview',
             name: 'UsersList',
             component: UsersList
         },
         {
-            path: '/companies',
+            path: '/company/overview',
             name: 'CompaniesList',
             component: CompaniesList
         },
