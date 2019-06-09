@@ -92,14 +92,6 @@
                             </template>
                         </v-data-table>
                     </v-flex>
-                    <v-flex justify-center>
-                        <v-btn
-                        @click="navigateToJobCreation"
-                        class="right"
-                        >
-                            Add new job    
-                        </v-btn>
-                    </v-flex>
                 </v-layout>
             </v-layout>
         </v-layout>
