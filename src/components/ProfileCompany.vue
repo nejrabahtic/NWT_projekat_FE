@@ -88,10 +88,18 @@
                                 <td class="text-xs-left">{{ props.item.requirements }}</td>
                                 <td class="text-xs-left">{{ props.item.partTime }}</td>
                                 <td class="text-xs-left">{{ props.item.remote }}</td>
+                                <td class="text-xs-left">{{ props.item.skills.skillName }}</td>
                             </template>
                         </v-data-table>
                     </v-flex>
-                 
+                    <v-flex justify-center>
+                        <v-btn
+                        @click="navigateToJobCreation"
+                        class="right"
+                        >
+                            Add new job    
+                        </v-btn>
+                    </v-flex>
                 </v-layout>
             </v-layout>
         </v-layout>
@@ -128,7 +136,7 @@ export default {
                 { text: "Location", value: "location" },
                 { text: "PartTime", value: "partTime" },
                 { text: "Remote", value: "remote" },
-                { text: "Requirements", value: "requirements" },
+                { text: "Requirements", value: "requirements" }
             ]
         }
     },

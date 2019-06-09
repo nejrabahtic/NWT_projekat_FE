@@ -10,6 +10,7 @@ import Profile from '@/components/Profile';
 import JobCreation from '@/components/JobCreation';
 
 import UsersList from '@/components/UsersList'
+import CompaniesList from '@/components/CompaniesList'
 import User from '@/components/User'
 import AuthService from '../services/AuthService.js';
 
@@ -82,6 +83,11 @@ var router =  new VueRouter({
             path: '/users',
             name: 'UsersList',
             component: UsersList
+        },
+        {
+            path: '/companies',
+            name: 'CompaniesList',
+            component: CompaniesList
         },
         {
             path: '/user',

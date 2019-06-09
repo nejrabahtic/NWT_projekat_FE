@@ -1,82 +1,49 @@
 <template>
-  <v-data-table :headers="headers" :items="users" class="elevation-1 table-view">
+  <v-data-table :headers="headers" :items="users" class="elevation-1">
     <template v-slot:items="props" class="text-xs-center">
-      <!-- <td>{{ props.item.name }}</td> -->
       <td class="text-xs-left">{{ props.item.id }}</td>
-      <td class="text-xs-left">{{ props.item.username }}</td>
-      <td class="text-xs-left">{{ props.item.email }}</td>
-      <td class="text-xs-left">{{ props.item.info }}</td>
-      <td class="text-xs-left">{{ props.item.phoneNumber }}</td>
+      <td class="text-xs-left">{{ props.item.userName }}</td>
+      <td class="text-xs-left">{{ props.item.userEmail }}</td>
+      <td class="text-xs-left">{{ props.item.userInfo }}</td>
+      <td class="text-xs-left">{{ props.item.userPhoneNumber }}</td>
     </template>
   </v-data-table>
 </template>
 
 <script>
+import UserService from "../services/UserService";
+
 export default {
   name: "UsersList",
   data() {
     return {
+      loading: true,
+      users: [],
       headers: [
         { text: "Id", value: "id" },
-        { text: "UserName", value: "username" },
-        { text: "Email", value: "email" },
-        { text: "Info", value: "info" },
-        { text: "Phone Number", value: "phoneNumber" }
-      ],
-      users: [
-        {
-          id: "1",
-          username: "nejrabahtic",
-          email: "nejrabahtic@gmail.com",
-          info: "Something about nejra",
-          phoneNumber: "+387 00-000-000"
-        },
-        {
-          id: "2",
-          username: "delmond",
-          email: "muhameddelalic@gmail.com",
-          info: "Something about delmond",
-          phoneNumber: "+387 000-111-222"
-        },
-        {
-          id: "3",
-          username: "nejrabahtic",
-          email: "nejrabahtic@gmail.com",
-          info: "Something about nejra",
-          phoneNumber: "+387 00-000-000"
-        },
-        {
-          id: "4",
-          username: "delmond",
-          email: "muhameddelalic@gmail.com",
-          info: "Something about delmond",
-          phoneNumber: "+387 000-111-222"
-        },
-        {
-          id: "5",
-          username: "nejrabahtic",
-          email: "nejrabahtic@gmail.com",
-          info: "Something about nejra",
-          phoneNumber: "+387 00-000-000"
-        },
-        {
-          id: "6",
-          username: "delmond",
-          email: "muhameddelalic@gmail.com",
-          info: "Something about delmond",
-          phoneNumber: "+387 000-111-222"
-        }
+        { text: "Username", value: "userName" },
+        { text: "Email", value: "userEmail" },
+        { text: "Info", value: "userInfo" },
+        { text: "Phone Number", value: "userPhoneNumber" }
       ]
     };
+  },
+  mounted() {
+    UserService.getUsers()
+      .then(response => {
+        // eslint-disable-next-line
+        console.log(response.data);
+        this.users = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        this.loading = false;
+        // eslint-disable-next-line
+        console.log(error);
+      });
   }
 };
 </script>
 
 <style scoped>
-  .table-view{
-    width: 70%;
-    /* margin-left: auto; */
-    margin: auto;
-    margin-top: 5%;
-  }
 </style>

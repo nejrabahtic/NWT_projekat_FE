@@ -69,6 +69,9 @@
 import axios from 'axios';
 import AuthService from '../services/AuthService.js';
 
+let baseUrl = 'localhost'
+//let baseUrl = '192.168.3.130'
+
 export default {
   name: "LoginPage",
   props:{
@@ -88,7 +91,7 @@ export default {
   methods: {
     login(){
       axios
-      .post("http://localhost:8081/auth/login", {
+      .post("http://"+baseUrl+":8081/auth/login", {
         username: this.username,
         password: this.password,
         role: this.role
