@@ -1,11 +1,11 @@
 <template>
-  <v-container fill-height>
+  <v-container fill-height fluid>
     <v-layout row justify-center align-center>
-      <v-layout column>
-        <v-layout row>
-          <v-flex xs6>
+          <v-flex xs5 offset-xr1>
             <v-layout row justify-center>
-              <v-btn>Match</v-btn>
+              <v-btn
+                @click="getMatch"
+              >Match</v-btn>
             </v-layout>
             <v-flex class="form" justify-center align-center>
               <v-form>
@@ -38,7 +38,7 @@
               </v-btn>
             </v-layout>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs5 offset-xr1>
             <v-layout row justify-center align-center>
               <v-data-table :headers="headers" :items="history" class="elevation-1">
                 <template v-slot:items="props" class="text-xs-center">
@@ -49,8 +49,7 @@
               </v-data-table>
             </v-layout>
           </v-flex>
-        </v-layout>
-      </v-layout>
+
     </v-layout>
   </v-container>
 </template>
@@ -77,8 +76,7 @@ export default {
 </script>
 
 <style scoped>
-.form {
-  width: 60%;
-  margin: auto;
-}
+  .form {
+    margin: auto;
+  }
 </style>
