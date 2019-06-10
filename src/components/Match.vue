@@ -36,20 +36,34 @@
                   name="requirements"
                   label="Requirements"
                 ></v-text-field>
-                <!-- <v-text-field
-                  v-if="job.remote ? job.remote : !job.remote"
+                <v-text-field
+                  v-if="job.remote"
                   prepend-icon="schedule"
-                  v-model="job.remote"
+                  v-model="strings.remote"
                   name="remote"
                   label="Availability"
                 ></v-text-field>
                 <v-text-field
-                  v-if="job.partTime ? job.partTime : !job.partTime"
+                  v-else
+                  prepend-icon="schedule"
+                  v-model="strings.onsite"
+                  name="remote"
+                  label="Availability"
+                ></v-text-field>
+                <v-text-field
+                  v-if="job.partTime"
                   prepend-icon="watch_later"
-                  v-model="job.partTime"
+                  v-model="strings.parttime"
                   name="partTime"
                   label="Work hours"
-                ></v-text-field>-->
+                ></v-text-field>
+                <v-text-field
+                  v-else
+                  prepend-icon="watch_later"
+                  v-model="strings.fulltime"
+                  name="partTime"
+                  label="Work hours"
+                ></v-text-field>
               </v-form>
             </v-flex>
             <v-layout row justify-center>
@@ -81,7 +95,7 @@
 </template>
 
 <script>
-import MatchService from "../services/MatchService";
+//import MatchService from "../services/MatchService";
 
 export default {
   name: "Match",
@@ -94,8 +108,14 @@ export default {
         jobinfo: "Job info",
         location: "Job location",
         requirements: "Job requirements",
-        remote: false,
-        partTime: true
+        remote: true,
+        partTime: false
+      },
+      strings: {
+        remote: "Remote",
+        onsite: "On-Site",
+        parttime: "Part Time",
+        fulltime: "Full Time"
       },
       matchesByUser: [],
       headers: [
@@ -106,7 +126,7 @@ export default {
     };
   },
   mounted() {
-    MatchService.getMachesByUserId()
+    /* MatchService.getMachesByUserId()
       .then(response => {
         // eslint-disable-next-line
         console.log(response.data);
@@ -117,7 +137,7 @@ export default {
         this.loading = false;
         // eslint-disable-next-line
         console.log(error);
-      });
+      }); */
   },
   methods: {
     match() {

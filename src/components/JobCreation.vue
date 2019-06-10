@@ -34,7 +34,7 @@
                     </v-radio-group>
                 </v-flex>
                 <v-flex offset-xs1 xs2>
-                    <v-radio-group pt-1 column v-model="remote" label="Flexibility:" >
+                    <v-radio-group pt-1 column v-model="remote" label="Availability:" >
                         <v-radio 
                         label="On-site"
                         value="onsite"
