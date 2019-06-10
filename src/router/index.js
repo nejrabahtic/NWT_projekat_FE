@@ -12,7 +12,6 @@ import JobCreation from '@/components/JobCreation';
 import UsersList from '@/components/UsersList'
 import CompaniesList from '@/components/CompaniesList'
 import User from '@/components/User'
-import Match from '@/components/Match'
 import AuthService from '../services/AuthService.js';
 
 
