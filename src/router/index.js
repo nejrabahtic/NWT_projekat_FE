@@ -96,11 +96,6 @@ var router =  new VueRouter({
             component: User
         },
         {
-            path: '/match',
-            name: 'Match',
-            component: Match
-        },
-        {
             path: '/404',
             name: 'NotFound',
             component: NotFound
