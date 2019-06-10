@@ -130,6 +130,15 @@ export default {
         .match()
         .then(response => {
           console.log(response.data);
+          const {jobname, jobinfo, location, partTime, remote, requirements} = response.data.job;
+          this.job = {
+              jobname,
+              jobinfo,
+              location,
+              requirements,
+              remote,
+              partTime
+            }
         })
         .catch(error => {
           console.log(error);
