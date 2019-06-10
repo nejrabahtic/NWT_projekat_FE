@@ -67,11 +67,21 @@
               </v-form>
             </v-flex>
             <v-layout row justify-center>
-              <v-btn color="primary" dark>
+              <v-btn 
+                :disabled="matchid === null"
+                color="primary" 
+                dark
+                @click="acceptJob"
+                >
                 Accept
                 <v-icon dark right>check_circle</v-icon>
               </v-btn>
-              <v-btn color="red" dark>
+              <v-btn 
+                :disabled="matchid === null"
+                color="red" 
+                dark
+                @click="declineJob"
+                >
                 Decline
                 <v-icon dark right>block</v-icon>
               </v-btn>
@@ -83,7 +93,9 @@
                 <template v-slot:items="props" class="text-xs-center">
                   <td class="text-xs-left">{{ props.item.jobname }}</td>
                   <td class="text-xs-left">{{ props.item.companyname }}</td>
-                  <td class="text-xs-left">{{ props.item.status }}</td>
+                  <td class="text-xs-left">{{ props.item.status === 1? "ACCEPTED":    
+                                              props.item.status === 2? "DECLINED":
+                                              "NOT ANSWERED"}}</td>
                 </template>
               </v-data-table>
             </v-layout>
@@ -116,6 +128,7 @@ export default {
         parttime: "Part Time",
         fulltime: "Full Time"
       },
+      matchid: null,
       matchesByUser: [],
       headers: [
         { text: "Job name", value: "jobname" },
@@ -139,25 +152,50 @@ export default {
               remote,
               partTime
             }
+          this.matchid = response.data.id;
         })
         .catch(error => {
           console.log(error);
         })
+    },
+    acceptJob(){
+      MatchService
+        .decide(this.matchid, true)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }, 
+    declineJob(){
+      MatchService
+        .decide(this.matchid, false)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        })
     }
   },
   mounted() {
-    /* MatchService.getMachesByUserId()
+     MatchService.getMatchesByUserId()
       .then(response => {
         // eslint-disable-next-line
         console.log(response.data);
-        this.matchesByUser = response.data;
-        this.loading = false;
+        this.matchesByUser = JSON.parse(response.data).map(match => ({
+          jobname: match.jobName,
+          companyname: match.companyName,
+          status: (match.request)? match.request.accepted? 1: 2 : 3
+        }));
+        // this.loading = false;
       })
       .catch(error => {
-        this.loading = false;
+        // this.loading = false;
         // eslint-disable-next-line
         console.log(error);
-      }); */
+      }); 
   }
 };
 </script>

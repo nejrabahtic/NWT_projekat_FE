@@ -22,5 +22,15 @@ export default {
                 "Authorization": AuthService.getToken()
             }
         })
+    ),
+    decide: (id, accepted) => (
+        axios({
+            method: 'post',
+            url: "http://"+baseUrl+"/match/decide",
+            data: { accepted, id},
+            headers: {
+                "Content-Type": "application/json"
+            }           
+        })
     )
 };
