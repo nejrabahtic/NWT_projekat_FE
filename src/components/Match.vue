@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import MatchService from '../services/MatchService.js';
+
 export default {
   name: "Match",
   data() {
@@ -69,8 +71,17 @@ export default {
       ]
     };
   },
-  mounted() {
-    
+  methods: {
+    getMatch(){
+      MatchService
+        .match()
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 };
 </script>
