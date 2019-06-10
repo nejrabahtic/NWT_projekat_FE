@@ -9,22 +9,61 @@
             </v-layout>
             <v-flex class="form" justify-center align-center>
               <v-form>
-                <v-text-field prepend-icon="business" name="jobname" label="Job name" readonly></v-text-field>
-                <v-text-field prepend-icon="info" name="jobinfo" label="Job info" readonly></v-text-field>
-                <v-text-field prepend-icon="location_on" name="location" label="Location" readonly></v-text-field>
-                <v-text-field prepend-icon="style" name="requirements" label="Requirements"></v-text-field>
-                <!-- <v-text-field
-                  v-if="remote ? remote : !remote"
+                <v-text-field
+                  prepend-icon="business"
+                  v-model="job.jobname"
+                  name="jobname"
+                  label="Job name"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="info"
+                  v-model="job.jobinfo"
+                  name="jobinfo"
+                  label="Job info"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="location_on"
+                  v-model="job.location"
+                  name="location"
+                  label="Location"
+                  readonly
+                ></v-text-field>
+                <v-text-field
+                  prepend-icon="style"
+                  v-model="job.requirements"
+                  name="requirements"
+                  label="Requirements"
+                ></v-text-field>
+                <v-text-field
+                  v-if="job.remote"
                   prepend-icon="schedule"
+                  v-model="strings.remote"
                   name="remote"
                   label="Availability"
                 ></v-text-field>
                 <v-text-field
-                  v-if="partTime ? partTime : !partTime"
+                  v-else
+                  prepend-icon="schedule"
+                  v-model="strings.onsite"
+                  name="remote"
+                  label="Availability"
+                ></v-text-field>
+                <v-text-field
+                  v-if="job.partTime"
                   prepend-icon="watch_later"
+                  v-model="strings.parttime"
                   name="partTime"
                   label="Work hours"
-                ></v-text-field> -->
+                ></v-text-field>
+                <v-text-field
+                  v-else
+                  prepend-icon="watch_later"
+                  v-model="strings.fulltime"
+                  name="partTime"
+                  label="Work hours"
+                ></v-text-field>
               </v-form>
             </v-flex>
             <v-layout row justify-center>
@@ -40,7 +79,7 @@
           </v-flex>
           <v-flex xs5 offset-xr1>
             <v-layout row justify-center align-center>
-              <v-data-table :headers="headers" :items="history" class="elevation-1">
+              <v-data-table :headers="headers" :items="matchesByUser" class="elevation-1">
                 <template v-slot:items="props" class="text-xs-center">
                   <td class="text-xs-left">{{ props.item.jobname }}</td>
                   <td class="text-xs-left">{{ props.item.companyname }}</td>
@@ -63,7 +102,21 @@ export default {
     return {
       edit: false,
       loading: true,
-      histories: [],
+      job: {
+        jobname: "Job name",
+        jobinfo: "Job info",
+        location: "Job location",
+        requirements: "Job requirements",
+        remote: true,
+        partTime: false
+      },
+      strings: {
+        remote: "Remote",
+        onsite: "On-Site",
+        parttime: "Part Time",
+        fulltime: "Full Time"
+      },
+      matchesByUser: [],
       headers: [
         { text: "Job name", value: "jobname" },
         { text: "Company name", value: "companyname" },
@@ -82,6 +135,20 @@ export default {
           console.log(error);
         })
     }
+  },
+  mounted() {
+    /* MatchService.getMachesByUserId()
+      .then(response => {
+        // eslint-disable-next-line
+        console.log(response.data);
+        this.matchesByUser = response.data;
+        this.loading = false;
+      })
+      .catch(error => {
+        this.loading = false;
+        // eslint-disable-next-line
+        console.log(error);
+      }); */
   }
 };
 </script>
