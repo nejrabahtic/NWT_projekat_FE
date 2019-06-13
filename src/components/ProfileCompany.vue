@@ -11,7 +11,7 @@
                         </v-layout>
                     </v-flex>
                     <v-flex xs6>
-                        <v-form>
+                        <v-form ref="form">
                             <v-text-field
                                 prepend-icon="business"
                                 label="Full Name"
@@ -19,6 +19,7 @@
                                 type="text"
                                 :readonly="!edit"
                                 :loading="loading"
+                                :rules="nameRules"
                             ></v-text-field>
                             <v-text-field
                                 prepend-icon="email"
@@ -27,6 +28,7 @@
                                 type="text"
                                 :readonly="!edit"
                                 :loading="loading"
+                                :rules="emailRules"
                             ></v-text-field>
                             <v-text-field
                                 prepend-icon="phone"
@@ -35,6 +37,7 @@
                                 mask="+### ## ###-###"
                                 :readonly="!edit"
                                 :loading="loading"
+                                :rules="phoneRules"
                             ></v-text-field>
                             <v-textarea
                                 prepend-icon="info"
@@ -42,6 +45,7 @@
                                 label="About yourself:"
                                 :readonly="!edit"
                                 :loading="loading"
+                                :rules="infoRules"
                             ></v-textarea>
                         </v-form>
                         <v-layout v-if="!edit" xs12 justify-end>
@@ -129,6 +133,18 @@ export default {
                 { text: "PartTime", value: "partTime" },
                 { text: "Remote", value: "remote" },
                 { text: "Requirements", value: "requirements" }
+            ],
+            nameRules: [
+                v => (v.length > 6 && v.length < 30) || "Company name must be between 6 and 30 characters"
+            ],
+            infoRules: [
+                v => (v.length > 20 && v.length < 100) || "Company info must be between 20 and 100 characters"
+            ],
+            emailRules: [
+                v => (v.length > 6 && v.length < 30) || "Company email must be between 6 and 30 characters"
+            ],
+            phoneRules: [
+                v => (v.length > 6 && v.length < 20) || "Company phone number must be between 6 and 20 digits"
             ]
         }
     },
@@ -165,7 +181,8 @@ export default {
         },
         saveCompanyData(){
             this.loading = true;
-            CompanyService
+            if (this.$refs.form.validate()) {
+                CompanyService
                 .postCompanyData({
                     companyemail: this.company.email,
                     companyinfo: this.company.info,
@@ -188,6 +205,9 @@ export default {
                     // eslint-disable-next-line
                     console.log(error);
                 })
+            } else {
+                this.loading = false;
+            }
         },
         navigateToJobCreation(){
             router.push({path: "/job/creation"})
