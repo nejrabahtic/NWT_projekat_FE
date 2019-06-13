@@ -1,6 +1,6 @@
 <template>  
     <v-container fill-height>
-        <v-form style="width:100%">
+        <v-form style="width:100%" ref="form">
             <v-layout >
                 <v-flex xs6>
                     <v-text-field 
@@ -8,17 +8,14 @@
                         label="Name" 
                         type="text"
                         v-model="name"
-                        hint="Must be between 6 and 80 characters."
-                        counter="80"
+                        :rules="nameRules"
                     ></v-text-field>
                     <v-text-field 
                         prepend-icon="location_on" 
                         label="Location" 
                         type="text"
                         v-model="location"
-                        hint="Must be between 10 and 80 characters."
-                        counter="80"
-
+                        :rules="locationRules"
                     ></v-text-field>
                 </v-flex>
                 <v-flex offset-xs1 xs2>
@@ -49,17 +46,15 @@
             <v-textarea
                 prepend-icon="info"
                 v-model="info"
-                label="Job information:"
-                hint="Must be between 20 and 500 characters."
-                counter="500"
+                label="Job information"
+                :rules="infoRules"
               ></v-textarea>
             <v-text-field 
                 prepend-icon="style" 
-                label="Requirments:" 
+                label="Requirements" 
                 type="text"
                 v-model="requirements"
-                hint="Must be between 10 and 250 characters."
-                counter="250"
+                :rules="requirementsRules"
             ></v-text-field>
             <v-flex xs12 pl-4 pt-4>
                 <v-autocomplete
@@ -137,7 +132,19 @@ export default {
             requirements: "",
             skills: [],
             skillsToAdd: [],
-            snackbar: false
+            snackbar: false,
+            nameRules: [
+                v => (v.length > 6 && v.length < 30) || "Job name must be between 6 and 30 characters"
+            ],
+            infoRules: [
+                v => (v.length > 20 && v.length < 100) || "Job info must be between 20 and 100 characters"
+            ],
+            locationRules: [
+                v => (v.length > 20 && v.length < 30) || "Location name must be between 20 and 30 characters"
+            ],
+            requirementsRules: [
+                v => (v.length > 10 && v.length < 30) || "Requirements must be between 10 and 30 characters"
+            ]
         }
     },
     mounted(){
@@ -159,6 +166,7 @@ export default {
     },
     methods:{
         createJob(){
+            this.loading = true;
             const { name, location, partTime, remote, info, requirements, skillsToAdd } = this;
             var job = 
             {
@@ -170,7 +178,8 @@ export default {
                 requirements,
                 skills: skillsToAdd
             }
-            CompanyService
+            if (this.$refs.form.validate()) {
+                CompanyService
                 .addJob(job)
                 .then(response => {
                     this.snackbar = true;
@@ -182,6 +191,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 })
+            }
         },
         clearJob(){
 

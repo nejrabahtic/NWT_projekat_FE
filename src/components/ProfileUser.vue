@@ -11,7 +11,7 @@
             </v-layout>
           </v-flex>
           <v-flex xs6>
-            <v-form>
+            <v-form ref="form">
               <v-text-field
                 prepend-icon="person"
                 label="Full Name"
@@ -19,6 +19,7 @@
                 type="text"
                 :readonly="!edit"
                 :loading="loading"
+                :rules="nameRules"
               ></v-text-field>
               <v-text-field
                 prepend-icon="email"
@@ -27,6 +28,7 @@
                 type="text"
                 :readonly="!edit"
                 :loading="loading"
+                :rules="emailRules"
               ></v-text-field>
               <v-text-field
                 prepend-icon="phone"
@@ -35,6 +37,7 @@
                 mask="+### ## ###-###"
                 :readonly="!edit"
                 :loading="loading"
+                :rules="phoneRules"
               ></v-text-field>
               <v-textarea
                 prepend-icon="info"
@@ -42,28 +45,21 @@
                 label="About yourself:"
                 :readonly="!edit"
                 :loading="loading"
+                :rules="infoRules"
               ></v-textarea>
             </v-form>
             <v-layout v-if="!edit" xs12 justify-end>
-              <v-btn 
-                @click="enterEditMode"
-                >
+              <v-btn @click="enterEditMode">
                 Edit
                 <v-icon right>edit</v-icon>
               </v-btn>
             </v-layout>
             <v-layout v-else xs12 justify-end>
-              <v-btn 
-                @click="cancleEditMode"
-                color="error"
-                >
+              <v-btn @click="cancleEditMode" color="error">
                 Cancel
                 <v-icon right>clear</v-icon>
               </v-btn>
-              <v-btn 
-                @click="saveUserData"
-                color="success"
-                >
+              <v-btn @click="saveUserData" color="success">
                 Save
                 <v-icon right>check</v-icon>
               </v-btn>
@@ -73,51 +69,40 @@
         <v-flex xs12>
           <v-item-group multiple>
             <v-subheader>Skills</v-subheader>
-            <v-item
-              v-for="(skill, index) in userSkills"
-              :key="index"
-            >
-              <v-chip
-                  v-model="skill.visible"
-                  close
-                  @input="removeSkill(skill)"
-                >
-                {{skill.name}}
-              </v-chip>
+            <v-item v-for="(skill, index) in userSkills" :key="index">
+              <v-chip v-model="skill.visible" close @input="removeSkill(skill)">{{skill.name}}</v-chip>
             </v-item>
           </v-item-group>
         </v-flex>
         <v-flex xs12 pt-4>
           <v-autocomplete
-              v-model="skillsToAdd"
-              :items="fileredSkills"
-              box
-              chips
-              label="Add skills"
-              item-text="name"
-              item-value="id"
-              multiple
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  :selected="data.selected"
-                  close
-                  class="chip--select-multi"
-                >
-                  {{ data.item.name }}
-                </v-chip>
+            v-model="skillsToAdd"
+            :items="fileredSkills"
+            box
+            chips
+            label="Add skills"
+            item-text="name"
+            item-value="id"
+            multiple
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                :selected="data.selected"
+                close
+                class="chip--select-multi"
+              >{{ data.item.name }}</v-chip>
+            </template>
+            <template v-slot:item="data">
+              <template v-if="typeof data.item !== 'object'">
+                <v-list-tile-content v-text="data.item"></v-list-tile-content>
               </template>
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                </template>
-                <template v-else>
-                  <v-list-tile-content>
-                    <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                  </v-list-tile-content>
-                </template>
+              <template v-else>
+                <v-list-tile-content>
+                  <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                </v-list-tile-content>
               </template>
-            </v-autocomplete>
+            </template>
+          </v-autocomplete>
         </v-flex>
         <v-layout xs12 justify-end>
           <v-btn @click="addSkills">
@@ -131,14 +116,13 @@
 </template>
 
 <script>
-import AuthService from '../services/AuthService.js';
-import UserService from '../services/UserService.js';
-import SkillService from '../services/SkillService.js';
-
+import AuthService from "../services/AuthService.js";
+import UserService from "../services/UserService.js";
+import SkillService from "../services/SkillService.js";
 
 export default {
   name: "ProfileUser",
-  data(){
+  data() {
     return {
       user: {
         name: "",
@@ -158,92 +142,117 @@ export default {
       userSkills: [],
       skillsToAdd: [],
       edit: false,
-      loading: true
+      loading: true,
+      nameRules: [
+        v =>
+          (v.length > 6 && v.length < 30) || "User name must be between 6 and 30 characters"
+      ],
+      infoRules: [
+        v =>
+          (v.length > 20 && v.length < 100) || "User info must be between 20 and 100 characters"
+      ],
+      emailRules: [
+        v =>
+          (v.length > 6 && v.length < 30) || "User email must be between 6 and 30 characters"
+      ],
+      phoneRules: [
+        v =>
+          (v.length > 6 && v.length < 20) || "User phone number must be between 6 and 20 digits"
+      ]
     };
   },
   computed: {
-    fileredSkills(){
-      return this.skills.filter( skill => {
-        return !this.userSkills.find( userSkill => userSkill.name == skill.name);
-      })
+    fileredSkills() {
+      return this.skills.filter(skill => {
+        return !this.userSkills.find(userSkill => userSkill.name == skill.name);
+      });
     }
   },
-  mounted(){
-    UserService
-      .getUserByToken()
+  mounted() {
+    UserService.getUserByToken()
       .then(response => {
-        const { userEmail, userInfo, userName, userPhoneNumber, skills } = JSON.parse(response.data);
+        const {
+          userEmail,
+          userInfo,
+          userName,
+          userPhoneNumber,
+          skills
+        } = JSON.parse(response.data);
         this.user = {
-          name: userName? userName: "Not set",
-          info: userInfo? userInfo: "Not set",
-          email: userEmail? userEmail: "Not set",
-          phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000"
-        }
+          name: userName ? userName : "Not set",
+          info: userInfo ? userInfo : "Not set",
+          email: userEmail ? userEmail : "Not set",
+          phone: userPhoneNumber ? userPhoneNumber : "+000 00 000-000"
+        };
         this.userSkills = skills.map(item => {
           return {
             id: item.id,
             name: item.skillName,
             visible: true
-          }
-        })
+          };
+        });
         this.loading = false;
       })
-      .catch(error => {       
+      .catch(error => {
         // eslint-disable-next-line
         console.log(error);
         this.loading = false;
-      })
-    SkillService
-      .getUserSkills()
-      .then(response => {
-        this.skills = response.data.map(item => {
-          return {
-            id: item.id,
-            name: item.skillName,
-            visible: true
-          }
-        });
-      })
+      });
+    SkillService.getUserSkills().then(response => {
+      this.skills = response.data.map(item => {
+        return {
+          id: item.id,
+          name: item.skillName,
+          visible: true
+        };
+      });
+    });
   },
   methods: {
-    enterEditMode(){
+    enterEditMode() {
       this.edit = true;
       this.savedUser = Object.assign({}, this.user);
-
     },
-    cancleEditMode(){
+    cancleEditMode() {
       this.edit = false;
       this.user = Object.assign({}, this.savedUser);
     },
-    saveUserData(){
+    saveUserData() {
       this.loading = true;
-      UserService
-        .postUserData({
-            userName: this.user.name,
-            userEmail: this.user.email,
-            userInfo: this.user.info,
-            userPhoneNumber: this.user.phone
-        })
+      if (this.$refs.form.validate()){
+        UserService.postUserData({
+        userName: this.user.name,
+        userEmail: this.user.email,
+        userInfo: this.user.info,
+        userPhoneNumber: this.user.phone
+      })
         .then(response => {
-            const { userEmail, userInfo, userName, userPhoneNumber } = response.data;
-            this.user = {
-              name: userName? userName: "Not set",
-              info: userInfo? userInfo: "Not set",
-              email: userEmail? userEmail: "Not set",
-              phone: userPhoneNumber? userPhoneNumber: "+000 00 000-000"
-            }
-            this.loading = false;
-            this.edit = false;
+          const {
+            userEmail,
+            userInfo,
+            userName,
+            userPhoneNumber
+          } = response.data;
+          this.user = {
+            name: userName ? userName : "Not set",
+            info: userInfo ? userInfo : "Not set",
+            email: userEmail ? userEmail : "Not set",
+            phone: userPhoneNumber ? userPhoneNumber : "+000 00 000-000"
+          };
+          this.loading = false;
+          this.edit = false;
         })
         .catch(error => {
           this.loading = true;
           // eslint-disable-next-line
           console.log(error);
-        })
+        });
+      } else {
+        this.loading = false;
+      }
     },
-    addSkills(){
-      UserService
-        .addSkillsToUser(this.skillsToAdd)
+    addSkills() {
+      UserService.addSkillsToUser(this.skillsToAdd)
         .then(response => {
           this.skillsToAdd = [];
           this.userSkills = response.data.skills.map(item => {
@@ -251,25 +260,24 @@ export default {
               id: item.id,
               name: item.skillName,
               visible: true
-            }
-          })
+            };
+          });
         })
         .catch(error => {
           // eslint-disable-next-line
           console.log(error);
-        })
+        });
     },
-    removeSkill(skill){
-      UserService
-        .removeSkillFromUser(skill)
+    removeSkill(skill) {
+      UserService.removeSkillFromUser(skill)
         .then(response => {
           this.userSkills = response.data.skills.map(item => {
             return {
               id: item.id,
               name: item.skillName,
               visible: true
-            }
-          })
+            };
+          });
           this.skillsToAdd = [];
         })
         .catch(error => {
@@ -278,5 +286,5 @@ export default {
         });
     }
   }
-}
+};
 </script>

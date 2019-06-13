@@ -140,10 +140,6 @@ import router from '../router';
             {
               route: "/job/creation",
               name: "Create"
-            },
-            {
-              route: "/jobs/overview",
-              name: "Overview"
             }
           ]
         },
