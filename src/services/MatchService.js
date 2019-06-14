@@ -32,5 +32,14 @@ export default {
                 "Content-Type": "application/json"
             }           
         })
+    ),
+    getApplications: () => (
+        axios({
+            method: 'get',
+            url: 'http://'+baseUrl+'/match/applications',
+            headers: {
+                "Authorization": AuthService.getToken()
+            }
+        })
     )
 };

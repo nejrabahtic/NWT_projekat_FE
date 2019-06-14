@@ -1,13 +1,13 @@
 <template>
   <v-container fill-height fluid>
     <v-layout row justify-center align-center>
-          <v-flex xs5 offset-xr1>
+          <v-flex xs5 offset-xs1>
             <v-layout row justify-center>
               <v-btn
                 @click="getMatch"
               >Match</v-btn>
             </v-layout>
-            <v-flex class="form" justify-center align-center>
+            <v-flex v-if="matchid !== null" class="form" justify-center align-center>
               <v-form>
                 <v-text-field
                   prepend-icon="business"
@@ -66,6 +66,13 @@
                 ></v-text-field>
               </v-form>
             </v-flex>
+            <v-flex v-else class="form notMatched">
+              <v-layout row justify-center align-center fill-height class="px-4"  >
+                <v-flex text-xs-center class="px-4">
+                  <p class="display-1 px-4">Please press the match button above so we can find you a job!</p>
+                </v-flex>
+              </v-layout>
+            </v-flex>
             <v-layout row justify-center>
               <v-btn 
                 :disabled="matchid === null"
@@ -102,7 +109,22 @@
           </v-flex>
 
     </v-layout>
+    <v-snackbar
+    v-model="snackbar"
+    :bottom="true"
+    :timeout="4000"
+  > 
+    We found a job for you!
+    <v-btn
+      color="pink"
+      flat
+      @click="snackbar = false"
+    >
+      Close
+    </v-btn>
+  </v-snackbar>
   </v-container>
+  
 </template>
 
 <script>
@@ -134,7 +156,8 @@ export default {
         { text: "Job name", value: "jobname" },
         { text: "Company name", value: "companyname" },
         { text: "Status", value: "status" }
-      ]
+      ],
+      snackbar: false
     };
   },
   methods: {
@@ -153,6 +176,7 @@ export default {
               partTime
             }
           this.matchid = response.data.id;
+          this.snackbar = true;
         })
         .catch(error => {
           console.log(error);
@@ -163,6 +187,9 @@ export default {
         .decide(this.matchid, true)
         .then(response => {
             console.log(response);
+            this.matchid = null;
+            this.updateHistory();
+
         })
         .catch(error => {
             console.log(error);
@@ -173,10 +200,30 @@ export default {
         .decide(this.matchid, false)
         .then(response => {
             console.log(response);
+            this.matchid = null;
+            this.updateHistory();
         })
         .catch(error => {
             console.log(error);
         })
+    },
+    updateHistory(){
+      MatchService.getMatchesByUserId()
+      .then(response => {
+        // eslint-disable-next-line
+        console.log(response.data);
+        this.matchesByUser = JSON.parse(response.data).map(match => ({
+          jobname: match.jobName,
+          companyname: match.companyName,
+          status: (match.request)? match.request.accepted? 1: 2 : 3
+        }));
+        // this.loading = false;
+      })
+      .catch(error => {
+        // this.loading = false;
+        // eslint-disable-next-line
+        console.log(error);
+      }); 
     }
   },
   mounted() {
@@ -203,5 +250,8 @@ export default {
 <style scoped>
   .form {
     margin: auto;
+  }
+  .notMatched{
+    height: 474.167px;
   }
 </style>
